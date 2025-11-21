@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="valentine">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="favicon.ico" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+    <title>Sorpresa para Fercita 💗</title>
+
+    <!-- Tailwind + DaisyUI -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@4.6.0/dist/full.css"
+      rel="stylesheet"
+    />
+
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+
+    <!-- Swiper -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/swiper@8/swiper-bundle.min.css"
+    />
+
+    <style>
+      @keyframes heartbeat {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        15% {
+          transform: scale(1.25);
+        }
+        30% {
+          transform: scale(0.9);
+        }
+        45% {
+          transform: scale(1.3);
+        }
+      }
+
+      .animate-heartbeat {
+        animation: heartbeat 1.4s infinite;
+        display: inline-block;
+      }
+
+      .cover-card {
+        width: 260px;
+        height: 360px;
+        border-radius: 20px;
+        overflow: hidden;
+        border: 2px solid #ffd1e8;
+        box-shadow: 0 8px 20px rgba(255, 120, 170, 0.25);
+      }
+      .cover-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .mySwiper {
+        padding-top: 40px;
+        padding-bottom: 60px;
+      }
+
+      .swiper-slide {
+        width: 260px !important;
+        height: 360px !important;
+      }
+
+      /* Corazones flotando */
+      .heart {
+        position: absolute;
+        font-size: 22px;
+        pointer-events: none;
+        opacity: 0.9;
+      }
+
+      /* --- GLOBAL RESPONSIVE FIXES --- */
+
+      html,
+      body {
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+
+      /* HERO y secciones */
+      .hero,
+      section {
+        width: 100%;
+      }
+
+      /* Cards pequeñas del héroe */
+      .card {
+        min-height: auto;
+      }
+
+      /* Imagen decorativa Melody */
+      @media (max-width: 430px) {
+        .hero-content > div:last-child {
+          width: 160px !important;
+          height: 160px !important;
+        }
+
+        .hero-content img {
+          width: 110px !important;
+        }
+      }
+
+      /* Header: evita que se rompa en teléfonos */
+      @media (max-width: 600px) {
+        header {
+          flex-direction: column;
+          text-align: center;
+          gap: 1rem;
+        }
+
+        header button {
+          width: 100%;
+        }
+      }
+
+      /* Swiper más responsivo */
+      @media (max-width: 480px) {
+        .cover-card {
+          width: 200px !important;
+          height: 280px !important;
+        }
+
+        .swiper-slide {
+          width: 200px !important;
+          height: 280px !important;
+        }
+      }
+
+      @media (min-width: 480px) and (max-width: 768px) {
+        .cover-card {
+          width: 230px !important;
+          height: 320px !important;
+        }
+
+        .swiper-slide {
+          width: 230px !important;
+          height: 320px !important;
+        }
+      }
+
+      /* Imagen Header Melody */
+      @media (max-width: 350px) {
+        header img {
+          width: 50px !important;
+        }
+
+        header h1 {
+          font-size: 1.2rem !important;
+        }
+      }
+    </style>
+  </head>
+
+  <body class="bg-gradient-to-b">
+    <div class="max-w-5xl mx-auto p-4">
+      <!-- HEADER -->
+      <header
+        class="flex items-center justify-between gap-6 p-3 md:p-4 bg-pink-50/60 rounded-2xl border border-pink-100 shadow-md backdrop-blur"
+        data-aos="fade-right"
+      >
+        <!-- Icono / Imagen -->
+        <div
+          class="flex items-center justify-center w-20 h-20 md:w-24 md:h-24 rounded-3xl bg-gradient-to-br from-pink-200 to-pink-300 shadow-lg border border-pink-100"
+        >
+          <img src="assets/ops.png" class="w-14 md:w-16 drop-shadow-lg" />
+        </div>
+
+        <!-- Texto -->
+        <div class="flex flex-col">
+          <div class="flex items-center gap-2">
+            <h1
+              class="text-xl md:text-4xl font-extrabold text-pink-600 leading-tight"
+            >
+              FELIZ PRIMER MES JUNTITOS!!
+            </h1>
+
+            <!-- ❤️ Corazón animado -->
+            <span
+              class="text-pink-500 text-xl animate-heartbeat select-none"
+            >
+              💗🧸
+            </span>
+          </div>
+
+          <p class="text-xs md:text-sm opacity-70 mt-1 font-extralight">
+            Hecho con todo el amor del mundo para ti mi princesa hermosa 💕
+          </p>
+        </div>
+
+        <!-- Botón -->
+        <button
+          id="playToggle"
+          class="relative inline-flex items-center justify-center px-6 py-3 bg-pink-400 text-white font-bold rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:ring-offset-2"
+        >
+          <span class="mr-2">🧸</span>
+          Reproducir música
+          <!-- Brillo animado -->
+          <span
+            class="absolute inset-0 rounded-2xl bg-pink-100 opacity-20 animate-pulse"
+          ></span>
+        </button>
+      </header>
+
+      <!-- HERO -->
+      <section
+        class="relative hero mt-10 mb-10 rounded-[32px] p-1 overflow-hidden shadow-2xl"
+        data-aos="zoom-in"
+      >
+        <!-- Borde doble brillante -->
+        <div
+          class="absolute inset-0 rounded-[32px] bg-gradient-to-br from-pink-300 via-pink-200 to-pink-100"
+        ></div>
+
+        <!-- Capa semitransparente -->
+        <div
+          class="relative bg-pink-50/80 backdrop-blur-xl rounded-[28px] p-6 md:p-10 border border-pink-200 shadow-xl"
+        >
+          <!-- Corazones flotantes decorativos -->
+          <div
+            class="absolute top-3 left-4 text-pink-400 text-xl animate-bounce"
+          >
+            💗
+          </div>
+          <div
+            class="absolute bottom-3 right-4 text-pink-400 text-2xl animate-pulse"
+          >
+            💖
+          </div>
+
+          <div class="hero-content flex-col lg:flex-row gap-10">
+            <!-- Texto -->
+            <div class="max-w-xl">
+              <h2 class="text-3xl font-extrabold text-pink-600 drop-shadow-sm">
+                Quiero decirte algo.. 🧸
+              </h2>
+
+              <p
+                class="mt-3 text-pink-700 leading-relaxed font-extralight text-justify"
+              >
+                Holaaaa, mi niña hermosa. Espero que te encuentres de maravilla 💝.
+                <br/>Wow… qué rápido ha pasado este primer mes a tu lado. Desde la
+                primera vez que te vi me gustaste muchísimo, aunque nunca me
+                animé a decírtelo. Con el tiempo, mientras te conocía como
+                amiga, me di cuenta de que no deseaba solo una amistad contigo.
+                Te amo más de lo que imaginas, mi niña. Amo haberte encontrado
+                entre millones de personas. Es la primera vez que siento algo
+                tan intenso por alguien, y me hace inmensamente feliz que haya
+                sido contigo, porque sé que tú vas a cuidar de mí así como yo
+                cuidaré de ti. Quiero que estés conmigo en cada uno de mis
+                logros, y sobre todo en mis caídas. Yo siempre estaré para ti, y
+                quiero que nunca olvides que voy a cuidarte, porque eres lo más
+                hermoso que ha llegado a mi vida, mi amor. Gracias por existir y
+                por haber llegado a mí. Amo pasar mis dias a tu lado, junto de
+                tu familia y la mia, estoy seguro que vamos a crear un vinculo
+                muy hermoso, gracias por este mes lleno de amor y de sobre todo
+                mucho aprendizaje.<br />Con amor - Rodri, Tu Rodri. 💖
+              </p>
+
+              <!-- Mini cards -->
+              <div class="grid md:grid-cols-2 gap-4 mt-6">
+                <div
+                  class="card bg-gradient-to-br from-pink-100 to-white shadow-md border border-pink-200 hover:shadow-lg hover:scale-[1.02] transition-all duration-200"
+                >
+                  <div class="card-body">
+                    <h3 class="card-title text-pink-600">
+                      Siempre pero siempre
+                    </h3>
+                    <p class="text-pink-700 font-extralight">
+                      Seras mi niña hermosa y mi princesa cariñosita 💗🧸
+                    </p>
+                  </div>
+                </div>
+
+                <div
+                  class="card bg-gradient-to-br from-pink-100 to-white shadow-md border border-pink-200 hover:shadow-lg hover:scale-[1.02] transition-all duration-200"
+                >
+                  <div class="card-body">
+                    <h3 class="card-title text-pink-600 font-extralight">
+                      Te dedico una vez más esta canción 💖
+                    </h3>
+                    <p class="text-pink-700">💝 Lover - Taylor Swift 💝</p>
+                    <span class="text-xs opacity-60 font-extralight"
+                      >Esta canción siempre me recordara a ti mi amor 😻</span
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <!-- Typewriter box -->
+              <div
+                class="mt-6 p-4 rounded-xl bg-white/80 border border-pink-200 shadow-inner"
+              >
+                <span
+                  id="typedMessage"
+                  class="font-extralight text-pink-600 tracking-wide"
+                ></span>
+              </div>
+            </div>
+
+            <!-- Imagen decorativa -->
+            <div
+              class="w-48 h-48 rounded-3xl bg-gradient-to-b from-pink-200 to-pink-300 shadow-xl flex items-center justify-center border border-pink-100 hover:scale-105 transition-all duration-300"
+            >
+              <img src="assets/melody.gif" class="w-32 drop-shadow-md" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- GALERÍA -->
+      <section class="mt-10" data-aos="fade-up">
+        <h3 class="text-4xl text-center font-bold text-pink-600 mb-4">
+          Gracias por estos momentos tan hermosos a tu lado 💗🧸
+        </h3>
+
+        <div class="swiper mySwiper">
+          <div class="swiper-wrapper">
+            <!-- PHOTOS -->
+            <div class="swiper-slide">
+              <div class="cover-card"><img src="assets/foto6.jpg" /></div>
+            </div>
+            <div class="swiper-slide">
+              <div class="cover-card"><img src="assets/foto2.jpg" /></div>
+            </div>
+            <div class="swiper-slide">
+              <div class="cover-card"><img src="assets/foto3.jpg" /></div>
+            </div>
+            <div class="swiper-slide">
+              <div class="cover-card"><img src="assets/foto4.jpg" /></div>
+            </div>
+            <div class="swiper-slide">
+              <div class="cover-card"><img src="assets/foto5.jpg" /></div>
+            </div>
+            <div class="swiper-slide">
+              <div class="cover-card"><img src="assets/foto1.jpg" /></div>
+            </div>
+            <div class="swiper-slide">
+              <div class="cover-card"><img src="assets/foto7.jpg" /></div>
+            </div>
+            <div class="swiper-slide">
+              <div class="cover-card"><img src="assets/foto8.jpg" /></div>
+            </div>
+            <div class="swiper-slide">
+              <div class="cover-card"><img src="assets/foto9.jpg" /></div>
+            </div>
+            <div class="swiper-slide">
+              <div class="cover-card"><img src="assets/foto10.jpg" /></div>
+            </div>
+            <div class="swiper-slide">
+              <div class="cover-card"><img src="assets/foto11.jpg" /></div>
+            </div>
+            <div class="swiper-slide">
+              <div class="cover-card"><img src="assets/foto12.jpg" /></div>
+            </div>
+            <div class="swiper-slide">
+              <div class="cover-card"><img src="assets/foto13.jpg" /></div>
+            </div>
+            <div class="swiper-slide">
+              <div class="cover-card"><img src="assets/foto14.jpg" /></div>
+            </div>
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
+      </section>
+
+      <!-- TIMELINE -->
+      <section
+        class="mt-10 bg-pink-50 p-6 rounded-3xl border border-pink-100 shadow"
+        data-aos="fade-up"
+      >
+        <!-- Contenedor centrado -->
+        <div class="flex flex-col items-center">
+          <h1 class="text-3xl font-bold text-pink-600 text-center">
+            💗 ¿Por qué te amo? 💗
+          </h1>
+
+          <div class="mt-10 space-y-5 w-full max-w-xl">
+            <div class="flex gap-3 text-center">
+              <!-- <div
+                class="w-16 h-16 rounded-xl bg-pink-300 text-white flex items-center justify-center font-bold shadow"
+              >
+                ❤️
+              </div> -->
+              <div>
+                <strong
+                  >Tengo uno y mil millones de motivos pero hoy te dire los que
+                  mas destaco de ti. 💝</strong
+                >
+              </div>
+            </div>
+
+            <div class="flex gap-3">
+              <div
+                class="w-16 h-16 rounded-xl bg-pink-300 text-white flex items-center justify-center font-bold shadow"
+              >
+                🎀
+              </div>
+              <div>
+                <strong>Lo Hermosa que eres</strong>
+                <p class="opacity-80">Amo con todo mi ser tu belleza</p>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <div
+                class="w-16 h-16 rounded-xl bg-pink-300 text-white flex items-center justify-center font-bold shadow"
+              >
+                💖
+              </div>
+              <div>
+                <strong>Tu personalidad</strong>
+                <p class="opacity-80">
+                  Amo mucho tu forma de ser y lo excelente ser humano que eres
+                  jiji
+                </p>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <div
+                class="w-16 h-16 rounded-xl bg-pink-300 text-white flex items-center justify-center font-bold shadow"
+              >
+                🧸
+              </div>
+              <div>
+                <strong>Tus ojitos hermosos</strong>
+                <p class="opacity-80">
+                  Me encantan tus ojitos, son lo que mas amo, y amo que me vean.
+                </p>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <div
+                class="w-16 h-16 rounded-xl bg-pink-300 text-white flex items-center justify-center font-bold shadow"
+              >
+                😍
+              </div>
+              <div>
+                <strong>Tu precioso cabello</strong>
+                <p class="opacity-80">Me encanta mucho tu pelo mi amor jiji</p>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <div
+                class="w-16 h-16 rounded-xl bg-pink-300 text-white flex items-center justify-center font-bold shadow"
+              >
+                💝
+              </div>
+              <div>
+                <strong>Tu forma de amarme</strong>
+                <p class="opacity-80">
+                  Es un regalo tener a alguien que me ama y lo demuestra jiji
+                </p>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <div
+                class="w-16 h-16 rounded-xl bg-pink-300 text-white flex items-center justify-center font-bold shadow"
+              >
+                😻
+              </div>
+              <div>
+                <strong>Tu sonrisa</strong>
+                <p class="opacity-80">
+                  Me fascina como no tienes idea tu preciosa sonrisa jiji
+                </p>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <div
+                class="w-16 h-16 rounded-xl bg-pink-300 text-white flex items-center justify-center font-bold shadow"
+              >
+                💕
+              </div>
+              <div>
+                <strong>Tu forma de vestir</strong>
+                <p class="opacity-80">
+                  Me encanta como te vestes, es muy hermoso y lindo
+                </p>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <div
+                class="w-16 h-16 rounded-xl bg-pink-300 text-white flex items-center justify-center font-bold shadow"
+              >
+                💗
+              </div>
+              <div>
+                <strong>Tu carita hermosa en general</strong>
+                <p class="opacity-80">
+                  Si bien ya dije que amo tus ojos y sonrisa, tu hermosa cara es
+                  preciosa y me encanta muchoo
+                </p>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <div
+                class="w-16 h-16 rounded-xl bg-pink-300 text-white flex items-center justify-center font-bold shadow"
+              >
+                ❤️
+              </div>
+              <div>
+                <strong>Tu, y tu</strong>
+                <p class="opacity-80">
+                  Te amo como no tienes idea mi princesa eres muy hermosa y amo
+                  todo de ti 🌟
+                </p>
+              </div>
+            </div>
+            <!-- Agrega más items según necesites -->
+          </div>
+        </div>
+      </section>
+
+      <!-- RAZONES -->
+      <section class="mt-10">
+        <h1 class="text-4xl font-bold text-pink-600">Gracias por.... 💗🧸</h1>
+
+        <div class="grid md:grid-cols-2 gap-4 mt-4">
+          <div class="card bg-white border border-pink-100 shadow">
+            <div class="card-body">Amarme y respetarme 💗</div>
+          </div>
+          <div class="card bg-white border border-pink-100 shadow">
+            <div class="card-body">Enseñarme que no duele el amor 💗</div>
+          </div>
+          <div class="card bg-white border border-pink-100 shadow">
+            <div class="card-body">Hacerme feliz 💗</div>
+          </div>
+          <div class="card bg-white border border-pink-100 shadow">
+            <div class="card-body">Hacer feliz a mi niño interior 💗</div>
+          </div>
+          <div class="card bg-white border border-pink-100 shadow">
+            <div class="card-body">
+              Enseñarme dia a dia cosas nuevas como persona 💗
+            </div>
+          </div>
+          <div class="card bg-white border border-pink-100 shadow">
+            <div class="card-body">
+              Por todos los momentos que hemos vivido juntos 💗
+            </div>
+          </div>
+          <div class="card bg-white border border-pink-100 shadow">
+            <div class="card-body">
+              Por hacerme parte de tu hermosa y preciosa familia 💗
+            </div>
+          </div>
+          <div class="card bg-white border border-pink-100 shadow">
+            <div class="card-body">
+              Por vivir, exisitir y hacer de mi vida mas linda con tu presencia,
+              eres mi regalo mas hermoso, te amo Fernanda, Gracias por
+              absolutamente todo mi niña. 💝
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FINAL -->
+      <section class="mt-10" data-aos="fade-up">
+        <div class="card bg-pink-50 border border-pink-100 shadow text-center">
+          <div class="card-body">
+            <h1 class="text-3xl font-bold text-pink-600">
+              Gracias por este primer mes, lleno de micho amor 💝
+            </h1>
+            <p class="opacity-70 font-extralight">
+              Sin duda alguna, eres lo mejor que me pudo pasar, gracias por todo
+              Fer, estoy orgulloso de ti mi futura Ingeníera 💗🧸.<br />Pd:
+              Espero y te haya gustado este regalo jiji. 💗
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FOOTER -->
+      <footer class="mt-10 text-center opacity-60">
+        <small> Una cartita virtual para mi Fercita, con amor de Rodrigo 💖</small>
+      </footer>
+    </div>
+
+    <!-- AUDIO -->
+    <audio id="bgMusic" loop preload="none">
+      <source src="assets/taylorSwift-Lover.mp3" type="audio/mpeg" />
+    </audio>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+
+    <script>
+      AOS.init({ duration: 700, once: true });
+
+      // Música
+      const music = document.getElementById("bgMusic");
+      const playBtn = document.getElementById("playToggle");
+      playBtn.addEventListener("click", () => {
+        if (music.paused) {
+          music.play();
+          playBtn.textContent = "Pausar música";
+        } else {
+          music.pause();
+          playBtn.textContent = "Reproducir música";
+        }
+      });
+
+      // Swiper
+      const swiper = new Swiper(".mySwiper", {
+        effect: "coverflow",
+        grabCursor: true,
+        centeredSlides: true,
+        slidesPerView: "auto",
+        coverflowEffect: {
+          rotate: 45,
+          stretch: 0,
+          depth: 120,
+          modifier: 1,
+          slideShadows: true,
+        },
+        pagination: { el: ".swiper-pagination", clickable: true },
+      });
+
+      // Typewriter
+      const typed = document.getElementById("typedMessage");
+      const text =
+        "TE AMO COMO NO TIENES IDEA FERNANDA ITZEL SALDAÑA GLORIA 💖";
+      let i = 0;
+      function typeWriter() {
+        if (i < text.length) {
+          typed.textContent += text.charAt(i);
+          i++;
+          setTimeout(typeWriter, 35);
+        }
+      }
+      setTimeout(typeWriter, 900);
+
+      // Hearts
+      function spawnHeart() {
+        const h = document.createElement("div");
+        h.className = "heart";
+        h.style.left = Math.random() * 90 + "%";
+        h.style.top = 60 + Math.random() * 30 + "%";
+        h.style.fontSize = 12 + Math.random() * 30 + "px";
+        h.textContent = "💖";
+        document.body.appendChild(h);
+
+        anime({
+          targets: h,
+          translateY: -200,
+          opacity: [1, 0],
+          scale: [1, 1.6],
+          duration: 2600,
+          easing: "easeOutCubic",
+          complete: () => h.remove(),
+        });
+      }
+      setInterval(spawnHeart, 1200);
+    </script>
+  </body>
+</html>
